@@ -112,7 +112,9 @@ final class PhotoService {
         guard let photo = downloadQueue.first else { return }
         downloadQueue.removeFirst()
 
-        downloadTask = downloader.download(photoWithUrl: photo.url, completion: { (url, data, error) in
+        downloadTask = downloader.download(photoWithUrl: photo.url, completion: { [weak self] (url, data, error) in
+            guard let sSelf = self else { return }
+            sSelf.downloadNextPhoto()
         })
         downloadTask?.start()
     }
