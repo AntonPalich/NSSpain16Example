@@ -87,11 +87,38 @@ class PhotoServiceTests: XCTestCase {
     }
 
     func testThat_WhenPhotoIsDownloaded_ThenServiceStoresIt() {
-        XCTAssertFalse(true)
+        let photoStorageSpy = PhotoStorageSpy()
+        self.photoStorage = photoStorageSpy
+        self.setupPhotoService()
+
+        var photoSaved = false
+        photoStorageSpy.onSetPhotoDataForKey = { (photoData, key) in
+            photoSaved = true
+        }
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+        XCTAssertTrue(photoSaved)
     }
 
     func testThat_WhenPhotoIsDownloaded_ThenServiceStoresCompressedPhoto() {
-        XCTAssertFalse(true)
+        let photoStorageSpy = PhotoStorageSpy()
+        self.photoStorage = photoStorageSpy
+        let photoCompressorSpy = PhotoCompressorSpy()
+        self.photoCompressor = photoCompressorSpy
+        self.setupPhotoService()
+
+        let compressedPhotoData = NSUUID().UUIDString.dataUsingEncoding(NSUTF16StringEncoding)!
+        photoCompressorSpy.onCompressPhoto = { (photo) in
+            return compressedPhotoData
+        }
+
+        var compressedPhotoSaved = false
+        photoStorageSpy.onSetPhotoDataForKey = { (photoData, key) in
+            if photoData == compressedPhotoData {
+                compressedPhotoSaved = true
+            }
+        }
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+        XCTAssertTrue(compressedPhotoSaved)
     }
 
     func testThat_GivenServiceDownloadedPhotosLessThan4HoursAgo_WhenAppBecomesActive_ThenServiceDoesntDownloadPhotos() {
