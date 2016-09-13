@@ -60,6 +60,10 @@ extension NSUserDefaults: ValueStorage {
     }
 }
 
+// MARK: - CurrentTimeProvider
+
+typealias CurrentTimeProvider = () -> NSTimeInterval
+
 // MARK: - PhotoService
 
 struct Photo {
@@ -72,17 +76,20 @@ final class PhotoService {
     let downloader: PhotoDownloader
     let photoStorage: PhotoStorage
     let valueStorage: ValueStorage
+    let currentTimeProvider: CurrentTimeProvider
     let notificationCenter: NSNotificationCenter
 
     init(photos: [Photo],
          downloader: PhotoDownloader,
          photoStorage: PhotoStorage,
          valueStorage: ValueStorage,
+         currentTimeProvider: CurrentTimeProvider,
          notificationCenter: NSNotificationCenter) {
         self.photos = photos
         self.downloader = downloader
         self.photoStorage = photoStorage
         self.valueStorage = valueStorage
+        self.currentTimeProvider = currentTimeProvider
         self.notificationCenter = notificationCenter
 
         self.notificationCenter.addObserver(self,

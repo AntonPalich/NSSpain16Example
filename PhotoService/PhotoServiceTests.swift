@@ -36,6 +36,7 @@ class PhotoServiceTests: XCTestCase {
     var photoDownloader: PhotoDownloader!
     var photoStorage: PhotoStorage!
     var valueStorage: ValueStorage!
+    var currentTimeProvider: CurrentTimeProvider!
     var notificationCenter: NSNotificationCenter!
     var photoService: PhotoService!
 
@@ -49,6 +50,7 @@ class PhotoServiceTests: XCTestCase {
         self.photoDownloader = CountingPhotoDownloader()
         self.photoStorage = PhotoStorageSpy()
         self.valueStorage = FakeValueStorage()
+        self.currentTimeProvider = { return NSDate().timeIntervalSince1970 }
         self.notificationCenter = NSNotificationCenter()
 
         self.setupPhotoService()
@@ -68,6 +70,7 @@ class PhotoServiceTests: XCTestCase {
                                          downloader: self.photoDownloader,
                                          photoStorage: self.photoStorage,
                                          valueStorage: self.valueStorage,
+                                         currentTimeProvider: self.currentTimeProvider,
                                          notificationCenter: self.notificationCenter)
     }
 
