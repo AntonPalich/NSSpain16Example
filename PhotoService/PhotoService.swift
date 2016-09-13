@@ -22,6 +22,45 @@
 
 import Foundation
 
+// MARK: - PhotoDownloader
+
+typealias PhotoDownloaderCompletion = (url: NSURL, data: NSData?, error: NSError?) -> Void
+
+protocol PhotoDownloaderTask {
+    func start()
+    func cancel()
+}
+
+protocol PhotoDownloader {
+    func download(photoWithUrl url: NSURL, completion: PhotoDownloaderCompletion) -> PhotoDownloaderTask
+}
+
+// MARK: - PhotoStorage
+
+protocol PhotoStorage {
+    func photoData(forKey key: String) -> NSData?
+    func set(photoData photoData: NSData, forKey key: String)
+}
+
+// MARK: - ValueStorage
+
+protocol ValueStorage {
+    func set(double double:Double, forKey key: String)
+    func get(doubleForKey key: String) -> Double?
+}
+
+extension NSUserDefaults: ValueStorage {
+    func set(double double: Double, forKey key: String) {
+        self.setDouble(double, forKey: key)
+    }
+
+    func get(doubleForKey key: String) -> Double? {
+        return self.doubleForKey(key)
+    }
+}
+
+// MARK: - PhotoService
+
 struct Photo {
     let uid: String
     let url: NSURL
@@ -29,20 +68,20 @@ struct Photo {
 
 final class PhotoService {
     let photos: [Photo]
-    let session: NSURLSession
-    let fileManager: NSFileManager
+    let downloader: PhotoDownloader
+    let photoStorage: PhotoStorage
+    let valueStorage: ValueStorage
     let notificationCenter: NSNotificationCenter
-    let userDefaults: NSUserDefaults
 
     init(photos: [Photo],
-         session: NSURLSession,
-         fileManager: NSFileManager,
-         notificationCenter: NSNotificationCenter,
-         userDefaults: NSUserDefaults) {
+         downloader: PhotoDownloader,
+         photoStorage: PhotoStorage,
+         valueStorage: ValueStorage,
+         notificationCenter: NSNotificationCenter) {
         self.photos = photos
-        self.session = session
-        self.fileManager = fileManager
+        self.downloader = downloader
+        self.photoStorage = photoStorage
+        self.valueStorage = valueStorage
         self.notificationCenter = notificationCenter
-        self.userDefaults = userDefaults
     }
 }
