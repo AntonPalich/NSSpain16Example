@@ -140,6 +140,14 @@ final class PhotoService {
 
         downloadTask = downloader.download(photoWithUrl: photo.url, completion: { [weak self] (url, data, error) in
             guard let sSelf = self else { return }
+
+            if let photoData = data, originalPhoto = UIImage(data: photoData) {
+                sSelf.photoStorage.set(photoData: photoData, forKey: photo.uid + "-original")
+                if let compressedPhotoData = sSelf.photoCompressor.compress(photo: originalPhoto) {
+                    sSelf.photoStorage.set(photoData: compressedPhotoData, forKey: photo.uid + "-compressed")
+                }
+            }
+            
             sSelf.downloadNextPhoto()
         })
         downloadTask?.start()
