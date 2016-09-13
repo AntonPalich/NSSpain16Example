@@ -35,6 +35,7 @@ class PhotoServiceTests: XCTestCase {
     var photos: [Photo]!
     var photoDownloader: PhotoDownloader!
     var photoStorage: PhotoStorage!
+    var photoCompressor: PhotoCompressor!
     var valueStorage: ValueStorage!
     var currentTimeProvider: CurrentTimeProvider!
     var notificationCenter: NSNotificationCenter!
@@ -49,6 +50,7 @@ class PhotoServiceTests: XCTestCase {
         ]
         self.photoDownloader = CountingPhotoDownloader()
         self.photoStorage = PhotoStorageSpy()
+        self.photoCompressor = PhotoCompressorSpy()
         self.valueStorage = FakeValueStorage()
         self.currentTimeProvider = { return NSDate().timeIntervalSince1970 }
         self.notificationCenter = NSNotificationCenter()
@@ -69,6 +71,7 @@ class PhotoServiceTests: XCTestCase {
         self.photoService = PhotoService(photos: self.photos,
                                          downloader: self.photoDownloader,
                                          photoStorage: self.photoStorage,
+                                         photoCompressor: self.photoCompressor,
                                          valueStorage: self.valueStorage,
                                          currentTimeProvider: self.currentTimeProvider,
                                          notificationCenter: self.notificationCenter)
@@ -176,5 +179,17 @@ class FakeValueStorage: ValueStorage {
 
     func get(doubleForKey key: String) -> Double? {
         return self.storage[key]
+    }
+}
+
+// MARK: - PhotoCompressor
+
+class PhotoCompressorSpy: PhotoCompressor {
+    var onCompressPhoto: (photo: UIImage) -> NSData? = { (photo) in
+        return nil
+    }
+
+    func compress(photo photo: UIImage) -> NSData? {
+        return self.onCompressPhoto(photo: photo)
     }
 }

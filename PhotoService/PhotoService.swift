@@ -64,6 +64,12 @@ extension NSUserDefaults: ValueStorage {
 
 typealias CurrentTimeProvider = () -> NSTimeInterval
 
+// MARK: - PhotoCompressor
+
+protocol PhotoCompressor {
+    func compress(photo photo: UIImage) -> NSData?
+}
+
 // MARK: - PhotoService
 
 struct Photo {
@@ -75,6 +81,7 @@ final class PhotoService {
     let photos: [Photo]
     let downloader: PhotoDownloader
     let photoStorage: PhotoStorage
+    let photoCompressor: PhotoCompressor
     let valueStorage: ValueStorage
     let currentTimeProvider: CurrentTimeProvider
     let notificationCenter: NSNotificationCenter
@@ -82,12 +89,14 @@ final class PhotoService {
     init(photos: [Photo],
          downloader: PhotoDownloader,
          photoStorage: PhotoStorage,
+         photoCompressor: PhotoCompressor,
          valueStorage: ValueStorage,
          currentTimeProvider: CurrentTimeProvider,
          notificationCenter: NSNotificationCenter) {
         self.photos = photos
         self.downloader = downloader
         self.photoStorage = photoStorage
+        self.photoCompressor = photoCompressor
         self.valueStorage = valueStorage
         self.currentTimeProvider = currentTimeProvider
         self.notificationCenter = notificationCenter
