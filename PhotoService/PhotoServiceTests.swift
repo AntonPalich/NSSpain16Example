@@ -92,11 +92,33 @@ class PhotoServiceTests: XCTestCase {
     }
 
     func testThat_GivenServiceDownloadedPhotosLessThan4HoursAgo_WhenAppBecomesActive_ThenServiceDoesntDownloadPhotos() {
-        XCTAssertFalse(true)
+        let countingPhotoDownloader = CountingPhotoDownloader()
+        self.photoDownloader = countingPhotoDownloader
+
+        var currentTime = NSDate().timeIntervalSince1970
+        self.currentTimeProvider = { return currentTime }
+        self.setupPhotoService()
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+
+        countingPhotoDownloader.numberOfDownloadedPhotos = 0
+        currentTime += 4 * 60 * 60 - 1
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+        XCTAssertEqual(countingPhotoDownloader.numberOfDownloadedPhotos, 0)
     }
 
     func testThat_GivenServiceDownloadedPhotosMoreThan4HoursAgo_WhenAppBecomesActive_ThenServiceDownloadsPhotos() {
-        XCTAssertFalse(true)
+        let countingPhotoDownloader = CountingPhotoDownloader()
+        self.photoDownloader = countingPhotoDownloader
+
+        var currentTime = NSDate().timeIntervalSince1970
+        self.currentTimeProvider = { return currentTime }
+        self.setupPhotoService()
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+
+        countingPhotoDownloader.numberOfDownloadedPhotos = 0
+        currentTime += 4 * 60 * 60 + 1
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+        XCTAssertEqual(countingPhotoDownloader.numberOfDownloadedPhotos, self.photos.count)
     }
 }
 
