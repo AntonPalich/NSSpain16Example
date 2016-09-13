@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 import Foundation
+import UIKit
 
 // MARK: - PhotoDownloader
 
@@ -83,5 +84,36 @@ final class PhotoService {
         self.photoStorage = photoStorage
         self.valueStorage = valueStorage
         self.notificationCenter = notificationCenter
+
+        self.notificationCenter.addObserver(self,
+                                            selector: #selector(PhotoService.beginSync),
+                                            name: UIApplicationDidBecomeActiveNotification,
+                                            object: nil)
+    }
+
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+
+    var downloadQueue = [Photo]()
+    var downloadTask: PhotoDownloaderTask?
+
+    @objc private func beginSync() {
+        if let downloadTask = downloadTask {
+            downloadTask.cancel()
+            downloadQueue.removeAll()
+        }
+
+        downloadQueue.appendContentsOf(photos)
+        downloadNextPhoto()
+    }
+
+    private func downloadNextPhoto() {
+        guard let photo = downloadQueue.first else { return }
+        downloadQueue.removeFirst()
+
+        downloadTask = downloader.download(photoWithUrl: photo.url, completion: { (url, data, error) in
+        })
+        downloadTask?.start()
     }
 }
