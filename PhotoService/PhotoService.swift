@@ -106,6 +106,16 @@ final class PhotoService {
     var downloadTask: PhotoDownloaderTask?
 
     @objc private func beginSync() {
+        let key = "previousSyncTime"
+        let fourHours: NSTimeInterval = 4 * 60 * 60
+        let currentTime = self.currentTimeProvider()
+        if let previousTime = self.valueStorage.get(doubleForKey: key) {
+            if previousTime > 0 && (currentTime - previousTime) < fourHours {
+                return
+            }
+        }
+        self.valueStorage.set(double: currentTime, forKey: key)
+
         if let downloadTask = downloadTask {
             downloadTask.cancel()
             downloadQueue.removeAll()
