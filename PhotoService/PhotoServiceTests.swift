@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+@testable import NSSpain
 import XCTest
 
 /* 
@@ -57,5 +58,62 @@ class PhotoServiceTests: XCTestCase {
 
     func testThat_GivenServiceDownloadedPhotosMoreThan4HoursAgo_WhenAppBecomesActive_ThenServiceDownloadsPhotos() {
         XCTAssertFalse(true)
+    }
+}
+
+// MARK: - PhotoDownloader
+
+class DummyPhotoDownloaderTask: PhotoDownloaderTask {
+    func start() {}
+    func cancel() {}
+}
+
+class CountingPhotoDownloader: PhotoDownloader {
+    var numberOfDownloadedPhotos = 0
+    func download(photoWithUrl url: NSURL, completion: PhotoDownloaderCompletion) -> PhotoDownloaderTask {
+        numberOfDownloadedPhotos += 1
+        completion(url: url, data: NSData(), error: nil)
+        return DummyPhotoDownloaderTask()
+    }
+}
+
+class FailingPhotoDownloader: PhotoDownloader {
+    func download(photoWithUrl url: NSURL, completion: PhotoDownloaderCompletion) -> PhotoDownloaderTask {
+        let error = NSError(domain: "", code: 0, userInfo: nil)
+        completion(url: url, data: nil, error: error)
+        return DummyPhotoDownloaderTask()
+    }
+}
+
+// MARK: - PhotoStorage
+
+class PhotoStorageSpy: PhotoStorage {
+    var onPhotoDataForKey: (key: String) -> NSData? = { (key) in
+        return nil
+    }
+
+    func photoData(forKey key: String) -> NSData? {
+        return self.onPhotoDataForKey(key: key)
+    }
+
+    var onSetPhotoDataForKey: (photoData: NSData, key: String) -> Void = { (photoData, key) in
+    }
+
+    func set(photoData photoData: NSData, forKey key: String) {
+        self.onSetPhotoDataForKey(photoData: photoData, key: key)
+    }
+}
+
+// MARK: - ValueStorage
+
+class FakeValueStorage: ValueStorage {
+    var storage = [String: Double]()
+
+    func set(double double:Double, forKey key: String) {
+        self.storage[key] = double
+    }
+
+    func get(doubleForKey key: String) -> Double? {
+        return self.storage[key]
     }
 }
