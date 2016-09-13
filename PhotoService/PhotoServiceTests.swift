@@ -32,16 +32,52 @@ import XCTest
 */
 
 class PhotoServiceTests: XCTestCase {
+    var photos: [Photo]!
+    var photoDownloader: PhotoDownloader!
+    var photoStorage: PhotoStorage!
+    var valueStorage: ValueStorage!
+    var notificationCenter: NSNotificationCenter!
+    var photoService: PhotoService!
+
     override func setUp() {
         super.setUp()
+
+        self.photos = [
+            Photo(uid: "1", url: NSURL(string: "http://1")!),
+            Photo(uid: "2", url: NSURL(string: "http://2")!)
+        ]
+        self.photoDownloader = CountingPhotoDownloader()
+        self.photoStorage = PhotoStorageSpy()
+        self.valueStorage = FakeValueStorage()
+        self.notificationCenter = NSNotificationCenter()
+
+        self.setupPhotoService()
     }
     
     override func tearDown() {
+        self.photoDownloader = nil
+        self.photoStorage = nil
+        self.valueStorage = nil
+        self.notificationCenter = nil
+        self.photoService = nil
         super.tearDown()
     }
 
+    func setupPhotoService() {
+        self.photoService = PhotoService(photos: self.photos,
+                                         downloader: self.photoDownloader,
+                                         photoStorage: self.photoStorage,
+                                         valueStorage: self.valueStorage,
+                                         notificationCenter: self.notificationCenter)
+    }
+
     func testThat_WhenAppBecomesActive_ThenServiceDownloadPhotos() {
-        XCTAssertFalse(true)
+        let countingPhotoDownloader = CountingPhotoDownloader()
+        self.photoDownloader = countingPhotoDownloader
+        self.setupPhotoService()
+
+        self.notificationCenter.postNotificationName(UIApplicationDidBecomeActiveNotification, object: nil)
+        XCTAssertEqual(countingPhotoDownloader.numberOfDownloadedPhotos, self.photos.count)
     }
 
     func testThat_WhenPhotoIsDownloaded_ThenServiceStoresIt() {
