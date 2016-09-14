@@ -163,7 +163,7 @@ class CountingPhotoDownloader: PhotoDownloader {
     var numberOfDownloadedPhotos = 0
     func download(photoWithUrl url: NSURL, completion: PhotoDownloaderCompletion) -> PhotoDownloaderTask {
         numberOfDownloadedPhotos += 1
-        completion(url: url, data: NSData(), error: nil)
+        completion(url: url, data: UIImagePNGRepresentation(UIImage.onePixelImage()), error: nil)
         return DummyPhotoDownloaderTask()
     }
 }
@@ -218,5 +218,18 @@ class PhotoCompressorSpy: PhotoCompressor {
 
     func compress(photo photo: UIImage) -> NSData? {
         return self.onCompressPhoto(photo: photo)
+    }
+}
+
+extension UIImage {
+    static func onePixelImage() -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context!, UIColor.blackColor().CGColor)
+        CGContextFillRect(context!, rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
 }
