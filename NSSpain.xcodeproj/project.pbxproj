@@ -12,7 +12,8 @@
 		55211D681D86A8C900ADD0FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55211D661D86A8C900ADD0FF /* Main.storyboard */; };
 		55211D6A1D86A8C900ADD0FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55211D691D86A8C900ADD0FF /* Assets.xcassets */; };
 		55211D6D1D86A8C900ADD0FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55211D6B1D86A8C900ADD0FF /* LaunchScreen.storyboard */; };
-		55211D781D86A8C900ADD0FF /* NSSpainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55211D771D86A8C900ADD0FF /* NSSpainTests.swift */; };
+		55AC4F551D882AA50087A26B /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AC4F541D882AA50087A26B /* PhotoService.swift */; };
+		55AC4F571D882ABE0087A26B /* PhotoServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AC4F561D882ABE0087A26B /* PhotoServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +35,9 @@
 		55211D6C1D86A8C900ADD0FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55211D6E1D86A8C900ADD0FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55211D731D86A8C900ADD0FF /* NSSpainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NSSpainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		55211D771D86A8C900ADD0FF /* NSSpainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSpainTests.swift; sourceTree = "<group>"; };
 		55211D791D86A8C900ADD0FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55AC4F541D882AA50087A26B /* PhotoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
+		55AC4F561D882ABE0087A26B /* PhotoServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		55211D561D86A8C900ADD0FF = {
 			isa = PBXGroup;
 			children = (
+				55AC4F531D882A560087A26B /* PhotoService */,
 				55211D611D86A8C900ADD0FF /* NSSpain */,
 				55211D761D86A8C900ADD0FF /* NSSpainTests */,
 				55211D601D86A8C900ADD0FF /* Products */,
@@ -90,10 +93,18 @@
 		55211D761D86A8C900ADD0FF /* NSSpainTests */ = {
 			isa = PBXGroup;
 			children = (
-				55211D771D86A8C900ADD0FF /* NSSpainTests.swift */,
 				55211D791D86A8C900ADD0FF /* Info.plist */,
 			);
 			path = NSSpainTests;
+			sourceTree = "<group>";
+		};
+		55AC4F531D882A560087A26B /* PhotoService */ = {
+			isa = PBXGroup;
+			children = (
+				55AC4F541D882AA50087A26B /* PhotoService.swift */,
+				55AC4F561D882ABE0087A26B /* PhotoServiceTests.swift */,
+			);
+			path = PhotoService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,14 +152,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Badoo;
 				TargetAttributes = {
 					55211D5E1D86A8C900ADD0FF = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					55211D721D86A8C900ADD0FF = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 55211D5E1D86A8C900ADD0FF;
 					};
 				};
@@ -199,6 +212,7 @@
 			files = (
 				55211D651D86A8C900ADD0FF /* ViewController.swift in Sources */,
 				55211D631D86A8C900ADD0FF /* AppDelegate.swift in Sources */,
+				55AC4F551D882AA50087A26B /* PhotoService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55211D781D86A8C900ADD0FF /* NSSpainTests.swift in Sources */,
+				55AC4F571D882ABE0087A26B /* PhotoServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +268,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -300,8 +316,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -320,6 +338,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -333,6 +352,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.badoo.NSSpain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -344,6 +364,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.badoo.NSSpain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -355,6 +376,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.badoo.NSSpainTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NSSpain.app/NSSpain";
 			};
 			name = Debug;
@@ -367,6 +389,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.badoo.NSSpainTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NSSpain.app/NSSpain";
 			};
 			name = Release;
@@ -390,6 +413,7 @@
 				55211D7E1D86A8C900ADD0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		55211D7F1D86A8C900ADD0FF /* Build configuration list for PBXNativeTarget "NSSpainTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +422,7 @@
 				55211D811D86A8C900ADD0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

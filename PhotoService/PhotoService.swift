@@ -20,20 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+struct Photo {
+    let uid: String
+    let url: NSURL
 }
 
+final class PhotoService {
+    let photos: [Photo]
+    let session: NSURLSession
+    let fileManager: NSFileManager
+    let notificationCenter: NSNotificationCenter
+    let userDefaults: NSUserDefaults
+
+    init(photos: [Photo],
+         session: NSURLSession,
+         fileManager: NSFileManager,
+         notificationCenter: NSNotificationCenter,
+         userDefaults: NSUserDefaults) {
+        self.photos = photos
+        self.session = session
+        self.fileManager = fileManager
+        self.notificationCenter = notificationCenter
+        self.userDefaults = userDefaults
+    }
+}

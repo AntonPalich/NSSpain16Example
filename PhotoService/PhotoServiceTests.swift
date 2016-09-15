@@ -20,20 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import UIKit
+import XCTest
 
-class ViewController: UIViewController {
+/* 
+ Requirements:
+  - Download user photos
+  - Store compressed and original photos
+  - Do it no more than every four hours
+  - Do it when your app becomes active
+*/
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+class PhotoServiceTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func testThat_WhenAppBecomesActive_ThenServiceDownloadPhotos() {
+        XCTAssertFalse(true)
     }
 
+    func testThat_WhenPhotoIsDownloaded_ThenServiceStoresIt() {
+        XCTAssertFalse(true)
+    }
 
+    func testThat_WhenPhotoIsDownloaded_ThenServiceStoresCompressedPhoto() {
+        XCTAssertFalse(true)
+    }
+
+    func testThat_GivenServiceDownloadedPhotosLessThan4HoursAgo_WhenAppBecomesActive_ThenServiceDoesntDownloadPhotos() {
+        XCTAssertFalse(true)
+    }
+
+    func testThat_GivenServiceDownloadedPhotosMoreThan4HoursAgo_WhenAppBecomesActive_ThenServiceDownloadsPhotos() {
+        XCTAssertFalse(true)
+    }
 }
-
