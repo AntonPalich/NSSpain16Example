@@ -1,3 +1,8 @@
 # NSSpain16Example
 
-`master` branch represents final state of the example. If you would like to check it step by step use dedicated branches step1..step13
+Example is represented by two files:
+
+- `PhotoService/PhotoService.swift`
+- `PhotoService/PhotoServiceTests.swift`
+
+`master` branch represents final state of the example. If you would like to check it step by step use dedicated branches from `step1` to `step13`
